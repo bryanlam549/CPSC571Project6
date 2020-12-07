@@ -29,7 +29,14 @@ namespace CPSC571Project6.Controllers
 
         }
 
+        public IActionResult Index1()
+        {
+            //This'll fetch results into index pagesdfdsff
+            var results = _db.Table_1.ToList();
+            return View(results);
 
+
+        }
 
         public IActionResult Privacy()
         {
