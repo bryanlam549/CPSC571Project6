@@ -22,9 +22,11 @@ namespace CPSC571Project6.Controllers
 
         public IActionResult Index()
         {
-            //This'll fetch results into index page
+            //This'll fetch results into index pagesdfdsff
             var results = _db.Table_1.ToList();
             return View(results);
+
+
         }
 
 
