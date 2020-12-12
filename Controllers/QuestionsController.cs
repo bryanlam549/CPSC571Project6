@@ -24,8 +24,9 @@ namespace CPSC571Project6.Controllers
         public IActionResult Index(int? id)
         {
             var results = _db.Questions.Where(x => x.questionnaire_id == id).ToList();
-            var topic_id = _db.Questionnaires.Where(x => x.id == id).ToList().First().topic_id;
-            ViewBag.topic_id = topic_id;
+            var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
+            ViewBag.topic_id = questionnaire.topic_id;
+            ViewBag.questionaire_title = questionnaire.title;
             return View(results);
         }
 
