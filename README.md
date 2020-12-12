@@ -7,3 +7,6 @@ Download Visual studio 2019 and go to file, clone repository to https://github.c
 Also download the github/visual studio extension to be able to use github from visual studio
 
 Database: (server hosted by azure) cpsc571server.database.windows.net admin123 Applepie1
+
+
+Test change
