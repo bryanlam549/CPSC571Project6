@@ -27,6 +27,12 @@ namespace CPSC571Project6.Controllers
             return View(results);
         }
 
+        public IActionResult Analyze(int? id)
+        {
+            var results = _db.Questionnaires.ToList();
+            return View(results);
+        }
+
 
     }
 }
