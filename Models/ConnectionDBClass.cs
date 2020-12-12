@@ -19,5 +19,7 @@ namespace CPSC571Project6.Models
         public DbSet<TopicClass> Topics { get; set; }
 
         public DbSet<QuestionnaireClass> Questionnaires{ get; set; }
+
+        public DbSet<QuestionClass> Questions { get; set; }
     }
 }

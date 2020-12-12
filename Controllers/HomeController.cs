@@ -29,6 +29,7 @@ namespace CPSC571Project6.Controllers
             return View(results);
         }
 
+        //This doesn't really do anything. can get rid of. Deprecated
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
