@@ -55,7 +55,7 @@ namespace CPSC571Project6
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Topics}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
