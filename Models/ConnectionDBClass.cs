@@ -15,5 +15,7 @@ namespace CPSC571Project6.Models
         }
 
         public DbSet<TestClass> Table_1 { get; set; }
+
+        public DbSet<TopicClass> Topics { get; set; }
     }
 }

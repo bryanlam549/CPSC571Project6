@@ -9,4 +9,4 @@ Also download the github/visual studio extension to be able to use github from v
 Database: (server hosted by azure) cpsc571server.database.windows.net admin Applepie123!
 
 Website: hosted by azure, on bryan's free subscription account
-https://cpsc571homework.azurewebsites.net/
+https://cpsc571homework.azurewebsites.net/ 

@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CPSC571Project6.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CPSC571Project6.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         //private readonly ILogger<HomeController> _logger;
@@ -26,7 +28,6 @@ namespace CPSC571Project6.Controllers
             var results = _db.Table_1.ToList();
             return View(results);
 
-
         }
 
         public IActionResult Index1()
@@ -36,6 +37,13 @@ namespace CPSC571Project6.Controllers
             return View(results);
 
 
+        }
+
+        public IActionResult Topics()
+        {
+            var results = _db.Topics.ToList();
+            //results.Insert(0, new TopicClass { rowno = 0, subject_Name = "--Select Topic Name--" });
+            return View(results);
         }
 
         public IActionResult Privacy()
