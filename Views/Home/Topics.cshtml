@@ -32,9 +32,7 @@
                 @if (User.IsInRole("Admin"))
                 {
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.rowno">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.rowno">View</a> |
-                        <a asp-action="Delete" asp-route-id="@item.rowno">Delete</a>
+                        <a asp-controller="Questionnaire" asp-action="Index" asp-route-id="@item.rowno">View</a>
                     </td>
                 }
                 else
