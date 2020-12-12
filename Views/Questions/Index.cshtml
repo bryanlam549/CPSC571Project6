@@ -12,7 +12,21 @@
             <th>
                 Questions
             </th>
-            <th></th>
+            <th>
+                Poor
+            </th>
+            <th>
+                Not well
+            </th>
+            <th>
+                Moderate
+            </th>
+            <th>
+                Well
+            </th>
+            <th>
+                Excellent
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -20,7 +34,21 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.question)
-
+            </td>
+            <td align="center">
+                <input type="radio" name=@item.id value="1" />
+            </td>
+            <td align="center">
+                <input type="radio" name=@item.id value="2" />
+            </td>
+            <td align="center">
+                <input type="radio" name=@item.id value="3" />
+            </td>
+            <td align="center">
+                <input type="radio" name=@item.id value="4" />
+            </td>
+            <td align="center">
+                <input type="radio" name=@item.id value="5" />
             </td>
         </tr>
 }
