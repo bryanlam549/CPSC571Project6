@@ -29,21 +29,21 @@ namespace CPSC571Project6.Controllers
             return View(results);
         }
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Topics");
+            }
+
+            var getTopicsDetails = await _db.Questionnaires.FindAsync(id);
+            return View(getTopicsDetails);
+        }
+
         public IActionResult Create()
         {
 
             return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         [HttpPost]
@@ -58,5 +58,18 @@ namespace CPSC571Project6.Controllers
             }
             return View(newTopic);
         }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        
     }
 }
