@@ -22,28 +22,17 @@ namespace CPSC571Project6.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
-        {
-            //This'll fetch results into index pagesdfdsff
-            var results = _db.Table_1.ToList();
-            return View(results);
-
-        }
-
-        public IActionResult Index1()
-        {
-            //This'll fetch results into index pagesdfdsff
-            var results = _db.Table_1.ToList();
-            return View(results);
-
-
-        }
-
         public IActionResult Topics()
         {
             var results = _db.Topics.ToList();
             //results.Insert(0, new TopicClass { rowno = 0, subject_Name = "--Select Topic Name--" });
             return View(results);
+        }
+
+        public IActionResult Create()
+        {
+
+            return View();
         }
 
         public IActionResult Privacy()
@@ -55,6 +44,19 @@ namespace CPSC571Project6.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(TopicClass newTopic)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Add(newTopic);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Topics");
+
+            }
+            return View(newTopic);
         }
     }
 }
