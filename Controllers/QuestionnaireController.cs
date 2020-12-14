@@ -47,5 +47,31 @@ namespace CPSC571Project6.Controllers
 
         }
 
+        public async Task<IActionResult> Delete(int? id)
+        {
+            var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
+            ViewBag.topic_id = questionnaire.topic_id;
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var toDelete = await _db.Questionnaires.FindAsync(id);
+            return View(toDelete);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
+            var topic_id = questionnaire.topic_id;
+
+            var toDelete = await _db.Questionnaires.FindAsync(id);
+            _db.Questionnaires.Remove(toDelete);
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Index", new { id = topic_id });
+        }
     }
 }
