@@ -4,57 +4,67 @@
     ViewData["Title"] = "Questions";
 }
 
-<h1>@ViewBag.questionaire_title</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Questions
-            </th>
-            <th>
-                Poor
-            </th>
-            <th>
-                Not well
-            </th>
-            <th>
-                Moderate
-            </th>
-            <th>
-                Well
-            </th>
-            <th>
-                Excellent
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.question)
-            </td>
-            <td align="center">
-                <input type="radio" name=@item.id value="1" />
-            </td>
-            <td align="center">
-                <input type="radio" name=@item.id value="2" />
-            </td>
-            <td align="center">
-                <input type="radio" name=@item.id value="3" />
-            </td>
-            <td align="center">
-                <input type="radio" name=@item.id value="4" />
-            </td>
-            <td align="center">
-                <input type="radio" name=@item.id value="5" />
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<h1>@ViewBag.questionnaire_title</h1> 
 
 <div>
-    <a asp-controller="Questionnaire" asp-action="Index" asp-route-id ="@ViewBag.topic_id">Back to Questionnaires</a>
+    <a asp-controller="Questionnaire" asp-action="Index" asp-route-id="@ViewBag.topic_id">Back to Questionnaires</a>
 </div>
+
+<form asp-controller="Questions" asp-action="submit" asp-route-id="@ViewBag.questionnaire_id">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Questions
+                </th>
+                <th>
+                    Poor
+                </th>
+                <th>
+                    Not well
+                </th>
+                <th>
+                    Moderate
+                </th>
+                <th>
+                    Well
+                </th>
+                <th>
+                    Excellent
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                
+                <tr>
+                    <td>
+                       <input type="hidden" name="questionId" value="@item.id" />
+                        @Html.DisplayFor(modelItem => item.question)
+                    </td>
+                    <td align="center">
+                        <input type="radio" name=@item.id value="1" />
+                    </td>
+                    <td align="center">
+                        <input type="radio" name=@item.id value="2" />
+                    </td>
+                    <td align="center">
+                        <input type="radio" name=@item.id value="3" />
+                    </td>
+                    <td align="center">
+                        <input type="radio" name=@item.id value="4" />
+                    </td>
+                    <td align="center">
+                        <input type="radio" name=@item.id value="5" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+    <div align="center">
+        <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+    </div>
+
+</form>

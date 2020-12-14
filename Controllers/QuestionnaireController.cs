@@ -33,6 +33,19 @@ namespace CPSC571Project6.Controllers
             return View(results);
         }
 
+        public IActionResult Select(int? id)
+        {
+            int count = _db.Answers.Where(x => x.questionnaire_Id == id).Count();
+            if (count != 0)
+            {
+                var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
+                ViewBag.topic_id = questionnaire.topic_id;
+                return View("Attempted");
+            }
+
+            return RedirectToAction("Index", "Questions", new { id = id });
+
+        }
 
     }
 }

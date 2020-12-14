@@ -21,5 +21,7 @@ namespace CPSC571Project6.Models
         public DbSet<QuestionnaireClass> Questionnaires{ get; set; }
 
         public DbSet<QuestionClass> Questions { get; set; }
+
+        public DbSet<AnswerClass> Answers { get; set; }
     }
 }
