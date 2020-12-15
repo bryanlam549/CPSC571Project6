@@ -43,7 +43,6 @@ namespace CPSC571Project6.Controllers
 
         public IActionResult Create()
         {
-
             return View();
         }
 

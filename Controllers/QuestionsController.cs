@@ -42,6 +42,8 @@ namespace CPSC571Project6.Controllers
 
         }
 
+        
+
         [HttpPost]
         public IActionResult Submit(IFormCollection iformCollection, int? id)
         {
@@ -79,6 +81,82 @@ namespace CPSC571Project6.Controllers
 
         }
 
+
+        //create
+        public IActionResult Create(int? qid)
+        {
+            ViewBag.questionnaire_id = qid;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(QuestionClass newQuestion)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Add(newQuestion);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index", new { id = newQuestion.questionnaire_id});
+
+            }
+            return View(newQuestion);
+        }
+
+        //Edit
+        public async Task<IActionResult> Edit(int? id)
+        {
+            var question = _db.Questions.Where(x => x.id == id).ToList().First();
+            var questionnaire_id = question.questionnaire_id;
+            if (id == null)
+            {
+                return RedirectToAction("Index", new { id = questionnaire_id });
+            }
+
+            var toEdit = await _db.Questions.FindAsync(id);
+            return View(toEdit);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(QuestionClass editQuestion)
+        {
+            if (ModelState.IsValid)
+            {
+                var x = editQuestion.questionnaire_id;
+                _db.Update(editQuestion);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index", new { id = editQuestion.questionnaire_id });
+            }
+            return View(editQuestion);
+
+        }
+
+        //Delete
+        public async Task<IActionResult> Delete(int? id)
+        {
+            var question = _db.Questions.Where(x => x.id == id).ToList().First();
+            var questionnaire_id = question.questionnaire_id;
+            if (id == null)
+            {
+                return RedirectToAction("Index", new { id = questionnaire_id });
+            }
+
+            var toDelete = await _db.Questions.FindAsync(id);
+            return View(toDelete);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var question = _db.Questions.Where(x => x.id == id).ToList().First();
+            var questionnaire_id = question.questionnaire_id;
+
+            var toDelete = await _db.Questions.FindAsync(id);
+            _db.Questions.Remove(toDelete);
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Index", new { id = questionnaire_id });
+        }
 
     }
 }
