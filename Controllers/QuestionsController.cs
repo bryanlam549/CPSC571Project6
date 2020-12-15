@@ -106,10 +106,10 @@ namespace CPSC571Project6.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             var question = _db.Questions.Where(x => x.id == id).ToList().First();
-            var questionnaire_id = question.questionnaire_id;
+            ViewBag.questionnaire_id = question.questionnaire_id;
             if (id == null)
             {
-                return RedirectToAction("Index", new { id = questionnaire_id });
+                return RedirectToAction("Index", new { id = ViewBag.questionnaire_id });
             }
 
             var toEdit = await _db.Questions.FindAsync(id);
@@ -134,10 +134,10 @@ namespace CPSC571Project6.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             var question = _db.Questions.Where(x => x.id == id).ToList().First();
-            var questionnaire_id = question.questionnaire_id;
+            ViewBag.questionnaire_id = question.questionnaire_id;
             if (id == null)
             {
-                return RedirectToAction("Index", new { id = questionnaire_id });
+                return RedirectToAction("Index", new { id = ViewBag.questionnaire_id });
             }
 
             var toDelete = await _db.Questions.FindAsync(id);

@@ -53,6 +53,33 @@ namespace CPSC571Project6.Controllers
 
         }
 
+        public async Task<IActionResult> EditTitle(int? id)
+        {
+            var results = _db.Questions.Where(x => x.questionnaire_id == id).ToList();
+            var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
+            ViewBag.questionnaire_id = questionnaire.id;
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Questions", new { id = ViewBag.questionnaire_id });
+            }
+
+            var toEdit = await _db.Questionnaires.FindAsync(id);
+            return View(toEdit);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditTitle(QuestionnaireClass editQuestionnaire)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Update(editQuestionnaire);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index", "Questions", new { id = editQuestionnaire.id });
+            }
+            return View(editQuestionnaire);
+
+        }
+
         public async Task<IActionResult> Delete(int? id)
         {
             var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
