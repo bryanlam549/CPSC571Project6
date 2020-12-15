@@ -47,6 +47,12 @@ namespace CPSC571Project6.Controllers
 
         }
 
+        public IActionResult Edit(int? id)
+        {
+            return RedirectToAction("Index", "Questions", new { id = id });
+
+        }
+
         public async Task<IActionResult> Delete(int? id)
         {
             var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();

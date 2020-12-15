@@ -4,67 +4,100 @@
     ViewData["Title"] = "Questions";
 }
 
-<h1>@ViewBag.questionnaire_title</h1> 
+<h1>@ViewBag.questionnaire_title</h1>
 
-<div>
-    <a asp-controller="Questionnaire" asp-action="Index" asp-route-id="@ViewBag.topic_id">Back to Questionnaires</a>
-</div>
-
-<form asp-controller="Questions" asp-action="submit" asp-route-id="@ViewBag.questionnaire_id">
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create" asp-route-qid="@ViewBag.questionnaire_id">Create New Question</a>
+    </p>
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    Questions
+                    @Html.DisplayNameFor(model => model.question)
                 </th>
-                <th>
-                    Poor
-                </th>
-                <th>
-                    Not well
-                </th>
-                <th>
-                    Moderate
-                </th>
-                <th>
-                    Well
-                </th>
-                <th>
-                    Excellent
-                </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                
                 <tr>
                     <td>
-                       <input type="hidden" name="questionId" value="@item.id" />
                         @Html.DisplayFor(modelItem => item.question)
                     </td>
-                    <td align="center">
-                        <input type="radio" name=@item.id value="1" />
-                    </td>
-                    <td align="center">
-                        <input type="radio" name=@item.id value="2" />
-                    </td>
-                    <td align="center">
-                        <input type="radio" name=@item.id value="3" checked="checked"/>
-                    </td>
-                    <td align="center">
-                        <input type="radio" name=@item.id value="4" />
-                    </td>
-                    <td align="center">
-                        <input type="radio" name=@item.id value="5" />
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
                     </td>
                 </tr>
             }
         </tbody>
-
     </table>
-    <div align="center">
-        <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
-    </div>
 
-</form>
+    <div>
+        <a asp-controller="Questionnaire" asp-action="Index" asp-route-id="@ViewBag.topic_id">Back to Questionnaires</a>
+    </div>
+}
+else
+{
+    <form asp-controller="Questions" asp-action="submit" asp-route-id="@ViewBag.questionnaire_id">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Questions
+                    </th>
+                    <th>
+                        Poor
+                    </th>
+                    <th>
+                        Not well
+                    </th>
+                    <th>
+                        Moderate
+                    </th>
+                    <th>
+                        Well
+                    </th>
+                    <th>
+                        Excellent
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td>
+                            <input type="hidden" name="questionId" value="@item.id" />
+                            @Html.DisplayFor(modelItem => item.question)
+                        </td>
+                        <td align="center">
+                            <input type="radio" name=@item.id value="1" />
+                        </td>
+                        <td align="center">
+                            <input type="radio" name=@item.id value="2" />
+                        </td>
+                        <td align="center">
+                            <input type="radio" name=@item.id value="3" checked="checked" />
+                        </td>
+                        <td align="center">
+                            <input type="radio" name=@item.id value="4" />
+                        </td>
+                        <td align="center">
+                            <input type="radio" name=@item.id value="5" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+        <div align="center">
+            <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+        </div>
+
+    </form>
+}
