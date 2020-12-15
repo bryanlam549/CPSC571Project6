@@ -24,16 +24,8 @@ namespace CPSC571Project6.Controllers
         public IActionResult Index(int? id)
         {
             var results = _db.Questionnaires.Where(x => x.topic_id == id).ToList();
-            ViewBag.topic_id = results.First().topic_id;
             return View(results);
         }
-
-        /*public IActionResult Questionnaire()
-        {
-            var results = _db.Questionnaires.ToList();
-            //results.Insert(0, new TopicClass { rowno = 0, subject_Name = "--Select Topic Name--" });
-            return View(results);
-        }*/
 
         public IActionResult Analyze(int? id)
         {
@@ -41,27 +33,78 @@ namespace CPSC571Project6.Controllers
             return View(results);
         }
 
-        public IActionResult Create(int? tID)
+        public IActionResult Select(int? id)
         {
-            ViewBag.tID = tID;
-            return View();
+            int count = _db.Answers.Where(x => x.questionnaire_Id == id).Count();
+            if (count != 0)
+            {
+                var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
+                ViewBag.topic_id = questionnaire.topic_id;
+                return View("Attempted");
+            }
+
+            return RedirectToAction("Index", "Questions", new { id = id });
+
+        }
+
+        public IActionResult Edit(int? id)
+        {
+            return RedirectToAction("Index", "Questions", new { id = id });
+
+        }
+
+        public async Task<IActionResult> EditTitle(int? id)
+        {
+            var results = _db.Questions.Where(x => x.questionnaire_id == id).ToList();
+            var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
+            ViewBag.questionnaire_id = questionnaire.id;
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Questions", new { id = ViewBag.questionnaire_id });
+            }
+
+            var toEdit = await _db.Questionnaires.FindAsync(id);
+            return View(toEdit);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(QuestionnaireClass newTitle)
+        public async Task<IActionResult> EditTitle(QuestionnaireClass editQuestionnaire)
         {
             if (ModelState.IsValid)
             {
-                _db.Add(newTitle);
+                _db.Update(editQuestionnaire);
                 await _db.SaveChangesAsync();
-                //return RedirectToAction("Topics");
-                //return RedirectToAction("Index");
-                return RedirectToAction("Index", new { id = newTitle.topic_id });
-
+                return RedirectToAction("Index", "Questions", new { id = editQuestionnaire.id });
             }
-            return View(newTitle);
+            return View(editQuestionnaire);
+
         }
 
+        public async Task<IActionResult> Delete(int? id)
+        {
+            var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
+            ViewBag.topic_id = questionnaire.topic_id;
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
 
+            var toDelete = await _db.Questionnaires.FindAsync(id);
+            return View(toDelete);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
+            var topic_id = questionnaire.topic_id;
+
+            var toDelete = await _db.Questionnaires.FindAsync(id);
+            _db.Questionnaires.Remove(toDelete);
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Index", new { id = topic_id });
+        }
     }
 }
