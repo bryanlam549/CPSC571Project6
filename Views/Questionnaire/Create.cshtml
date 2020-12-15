@@ -1,0 +1,41 @@
+﻿@model CPSC571Project6.Models.QuestionnaireClass
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+<h1>Create Questionnaire</h1>
+
+<h4>Enter Information</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+
+                <input asp-for="topic_id" class="form-control" type="hidden" value="@ViewBag.tID"/>
+                <span asp-validation-for="topic_id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="title" class="control-label">Questionnaire Name</label>
+                <input asp-for="title" class="form-control" />
+                <span asp-validation-for="title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to Questionnaire List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

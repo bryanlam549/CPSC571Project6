@@ -9,7 +9,7 @@
 <p>
     @if (User.IsInRole("Admin"))
     {
-        <a asp-action="Create">Create New Questtionnaire</a>
+        <a asp-action="Create" asp-route-tID="@ViewBag.topic_id">Create New Questionnaire</a>
     }
 </p>
 <table class="table">
@@ -50,5 +50,5 @@
 </table>
 
 <div>
-    <a asp-controller="Home" asp-action="Topics">Back to Topics</a>
+    <a asp-controller="Home" asp-action="Topics">Back to Topic List</a>
 </div>
