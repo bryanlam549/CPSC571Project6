@@ -4,13 +4,17 @@
     ViewData["Title"] = "Questions";
 }
 
-<h1>@ViewBag.questionnaire_title</h1>
+<h1>@ViewBag.questionnaire_title</h1> 
 
 @if (User.IsInRole("Admin"))
 {
-    <p>
+    <div>
+        <a asp-controller="Questionnaire" asp-action="EditTitle" asp-route-id="@ViewBag.questionnaire_id">Edit Title</a>
+    </div>
+    <div>
         <a asp-action="Create" asp-route-qid="@ViewBag.questionnaire_id">Create New Question</a>
-    </p>
+    </div>
+
     <table class="table">
         <thead>
             <tr>
