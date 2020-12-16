@@ -1,4 +1,4 @@
-﻿@model CPSC571Project6.Models.QuestionnaireClass
+﻿@model IEnumerable<CPSC571Project6.Models.AnswerClass>
 
 @{
     ViewData["Title"] = "Analyze";
@@ -6,25 +6,35 @@
 
 <h1>Analyze</h1>
 
-<div>
-    <h4>QuestionnaireClass</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.topic_id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.topic_id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.title)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<html>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Year', 'Sales'],
+                ['2004', 0],
+                ['2005', 1170],
+                ['2006', 660],
+                ['2007', 1000]
+            ]);
+
+            var options = {
+                title: 'Company Performance',
+                cruveType: 'function',
+                legend: { position: 'bottom' }
+            }
+
+            var chart = new google.visualization.PieChart(document.getElementById('mychart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+
+
+    <body>
+        <div id="mychart" style="width: 900px; height: 500px"></div>
+    </body>
+</html>

@@ -34,7 +34,7 @@ namespace CPSC571Project6.Controllers
 
         public IActionResult Analyze(int? id)
         {
-            var results = _db.Questionnaires.ToList();
+            var results = _db.Answers.Where(x => x.questionnaire_Id == id).ToList();
             return View(results);
         }
         public IActionResult Create(int? tID)
