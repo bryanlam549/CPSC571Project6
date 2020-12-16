@@ -10,7 +10,7 @@ namespace CPSC571Project6.Models
     {
         [Key]
         public int id { get; set; }
-        public int user_Id { get; set; }
+        public String user_Id { get; set; }
         public int questionnaire_Id { get; set; }
         public int question_Id { get; set; }
         public int answer { get; set; }

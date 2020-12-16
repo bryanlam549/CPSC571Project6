@@ -4,7 +4,7 @@
     ViewData["Title"] = "Questions";
 }
 
-<h1>@ViewBag.questionnaire_title</h1> 
+<h1>@ViewBag.questionnaire_title</h1>
 
 @if (User.IsInRole("Admin"))
 {
@@ -46,6 +46,9 @@
 }
 else
 {
+    <div>
+        <a asp-controller="Questionnaire" asp-action="Index" asp-route-id="@ViewBag.topic_id">Back to Questionnaires</a>
+    </div>
     <form asp-controller="Questions" asp-action="submit" asp-route-id="@ViewBag.questionnaire_id">
         <table class="table">
             <thead>

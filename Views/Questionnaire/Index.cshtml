@@ -38,9 +38,9 @@
             }
             else
             {
-                <td>
-                    <a asp-controller="Questions" asp-action="Index" asp-route-id="@item.id">Select</a>
-                </td>
+        <td>
+            <a asp-action="Select" asp-route-id="@item.id">Select</a>
+        </td>
             }
 
         </tr>
