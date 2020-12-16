@@ -24,6 +24,8 @@ namespace CPSC571Project6.Controllers
         public IActionResult Index(int? id)
         {
             var results = _db.Questionnaires.Where(x => x.topic_id == id).ToList();
+            ViewBag.tID = results.First().topic_id;
+
             return View(results);
         }
 
@@ -32,7 +34,24 @@ namespace CPSC571Project6.Controllers
             var results = _db.Questionnaires.ToList();
             return View(results);
         }
+        public IActionResult Create(int? tID)
+        {
+            ViewBag.tID = tID;
+            return View();
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> Create(QuestionnaireClass newTitle)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Add(newTitle);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index", new { id = newTitle.topic_id });
+
+            }
+            return View(newTitle);
+        }
         public IActionResult Select(int? id)
         {
             int count = _db.Answers.Where(x => x.questionnaire_Id == id).Count();
