@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CPSC571Project6.Models.QuestionnaireClass>
+@model IEnumerable<CPSC571Project6.Models.QuestionnaireClass>
 
 @{
     ViewData["Title"] = "Questionnaires";
@@ -9,7 +9,7 @@
 <p>
     @if (User.IsInRole("Admin"))
     {
-        <a asp-action="Create" asp-route-tID="@ViewBag.topic_id">Create New Questionnaire</a>
+        <a asp-action="Create" asp-route-tID="@ViewBag.tID">Create New Questionnaire</a>
     }
 </p>
 <table class="table">
