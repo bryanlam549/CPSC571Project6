@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using CPSC571Project6.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using CPSC571Project6.Areas.Identity.Data;
 
 namespace CPSC571Project6.Controllers
 {
@@ -15,10 +17,11 @@ namespace CPSC571Project6.Controllers
     {
         //private readonly ILogger<HomeController> _logger;
         private readonly ConnectionDBClass _db;
-
-        public QuestionnaireController(ConnectionDBClass db)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public QuestionnaireController(ConnectionDBClass db, UserManager<ApplicationUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
         public IActionResult Index(int? id)
@@ -54,7 +57,8 @@ namespace CPSC571Project6.Controllers
         }
         public IActionResult Select(int? id)
         {
-            int count = _db.Answers.Where(x => x.questionnaire_Id == id).Count();
+            var userId = _userManager.GetUserId(HttpContext.User);
+            int count = _db.Answers.Where(x => x.questionnaire_Id == id && x.user_Id == userId).Count();
             if (count != 0)
             {
                 var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
