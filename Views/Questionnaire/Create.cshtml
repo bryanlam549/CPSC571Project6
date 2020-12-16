@@ -1,4 +1,4 @@
-﻿@model CPSC571Project6.Models.QuestionnaireClass
+@model CPSC571Project6.Models.QuestionnaireClass
 
 @{
     ViewData["Title"] = "Create";
@@ -16,7 +16,6 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-
                 <input asp-for="topic_id" class="form-control" type="hidden" value="@ViewBag.tID" />
                 <span asp-validation-for="topic_id" class="text-danger"></span>
             </div>
@@ -39,3 +38,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+

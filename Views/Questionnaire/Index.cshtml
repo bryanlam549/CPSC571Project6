@@ -1,11 +1,10 @@
-﻿@model IEnumerable<CPSC571Project6.Models.QuestionnaireClass>
+@model IEnumerable<CPSC571Project6.Models.QuestionnaireClass>
 
 @{
     ViewData["Title"] = "Questionnaires";
 }
 
-
-<h1>List of Questionnaires </h1>
+<h1>List of Questionnaires</h1>
 
 <p>
     @if (User.IsInRole("Admin"))
@@ -23,34 +22,33 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.title)
-                </td>
-
-                @if (User.IsInRole("Admin"))
-                {
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.id">Delete</a> |
-                        <a asp-action="Analyze" asp-route-id="@item.id">Analyze</a>
-                    </td>
-                }
-                else
-                {
+@foreach (var item in Model) {
+        <tr>
             <td>
-                <a asp-action="Select" asp-route-id="@item.id">Select</a>
+                @Html.DisplayFor(modelItem => item.title)
             </td>
-                }
 
-            </tr>
-        }
+            @if (User.IsInRole("Admin"))
+            {
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+            <a asp-action="Delete" asp-route-id="@item.id">Delete</a> |
+            <a asp-action="Analyze" asp-route-id="@item.id">Analyze</a>
+        </td>
+            }
+            else
+            {
+                <td>
+                    <a asp-controller="Questions" asp-action="Index" asp-route-id="@item.id">Select</a>
+                </td>
+            }
+
+        </tr>
+}
 
     </tbody>
 </table>
 
 <div>
-    <a asp-controller="Home" asp-action="Topics">Back to Topics</a>
+    <a asp-controller="Home" asp-action="Topics">Back to Topic List</a>
 </div>
