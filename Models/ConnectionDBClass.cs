@@ -23,5 +23,6 @@ namespace CPSC571Project6.Models
         public DbSet<QuestionClass> Questions { get; set; }
 
         public DbSet<AnswerClass> Answers { get; set; }
+        public DbSet<ChartDataClass> Analyze { get; set; }
     }
 }

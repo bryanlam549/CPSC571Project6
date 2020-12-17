@@ -34,7 +34,13 @@ namespace CPSC571Project6.Controllers
 
         public IActionResult Analyze(int? id)
         {
-            var results = _db.Answers.Where(x => x.questionnaire_Id == id).ToList();
+            var taken = _db.Answers.Where(x => x.questionnaire_Id == id).Select(c => c.user_Id).Distinct().ToList();
+            var results = _db.Analyze.Where(x => x.questionnaire_Id == id).ToList();
+            var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
+            ViewBag.taken_Count = taken.Count();
+            ViewBag.title = questionnaire.title;
+            ViewBag.topic_id = questionnaire.topic_id;
+
             return View(results);
         }
         public IActionResult Create(int? tID)

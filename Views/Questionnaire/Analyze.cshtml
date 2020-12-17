@@ -1,40 +1,69 @@
-﻿@model IEnumerable<CPSC571Project6.Models.AnswerClass>
+﻿@model IEnumerable<CPSC571Project6.Models.ChartDataClass>
 
 @{
-    ViewData["Title"] = "Analyze";
+    ViewData["Title"] ="Analysis of " + @ViewBag.title;
 }
 
-<h1>Analyze</h1>
+<div>
+    <a asp-controller="Questionnaire" asp-action="Index" asp-route-id="@ViewBag.topic_id">Back to Questionnaires</a>
+</div>
+
+<h1>@ViewBag.title</h1>
+<p align="center">
+        
+    <u>@ViewBag.taken_Count users have taken this Questionnaire</u>
+
+</p>
 
 <html>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+<body>
+
+
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        <div>
+            @(i+1).) @Html.DisplayFor(modelItem => Model.ToList()[i].question)
+            <div id=@i style="width: 900px; height: 500px"></div>
+        </div>
+
+    }
+
+
+</body>
+
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
         google.charts.load('current', { 'packages': ['corechart'] });
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Year', 'Sales'],
-                ['2004', 0],
-                ['2005', 1170],
-                ['2006', 660],
-                ['2007', 1000]
-            ]);
+            var chartData = @Html.Raw(Json.Serialize(Model));
 
-            var options = {
-                title: 'Company Performance',
-                cruveType: 'function',
-                legend: { position: 'bottom' }
+            for (i = 0; i < chartData.length; i++) {
+                var data = google.visualization.arrayToDataTable([
+                    ['Answer', 'Count'],
+                    ['Poor (1)', chartData[i].value_1_count],
+                    ['Not well (2)', chartData[i].value_2_count],
+                    ['Moderate (3)', chartData[i].value_3_count],
+                    ['Well (4)', chartData[i].value_4_count],
+                    ['Excellent (5)', chartData[i].value_5_count]
+                ]);
+
+                var options = {
+                    title: '',
+                    cruveType: 'function',
+                    legend: { position: 'bottom' }
+                }
+
+                var chart = new google.visualization.PieChart(document.getElementById(i));
+                chart.draw(data, options);
             }
 
-            var chart = new google.visualization.PieChart(document.getElementById('mychart'));
 
-            chart.draw(data, options);
+
         }
-    </script>
+</script>
 
-
-    <body>
-        <div id="mychart" style="width: 900px; height: 500px"></div>
-    </body>
 </html>
