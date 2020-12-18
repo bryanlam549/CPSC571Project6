@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using CPSC571Project6.Areas.Identity.Data;
+using Cotur.DataMining.Association;
 
 namespace CPSC571Project6.Controllers
 {
@@ -27,7 +28,9 @@ namespace CPSC571Project6.Controllers
         public IActionResult Index(int? id)
         {
             var results = _db.Questionnaires.Where(x => x.topic_id == id).ToList();
-            ViewBag.tID = results.First().topic_id;
+            var topic = _db.Topics.Where(x => x.rowno == id).ToList();
+            ViewBag.tID = topic.First().rowno;
+            
 
             return View(results);
         }
@@ -35,13 +38,71 @@ namespace CPSC571Project6.Controllers
         public IActionResult Analyze(int? id)
         {
             var taken = _db.Answers.Where(x => x.questionnaire_Id == id).Select(c => c.user_Id).Distinct().ToList();
-            var results = _db.Analyze.Where(x => x.questionnaire_Id == id).ToList();
             var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
+            var answers = _db.Answers.Where(x => x.questionnaire_Id == id).ToList();
+            var results = _db.Analyze.Where(x => x.questionnaire_Id == id).ToList();
+
             ViewBag.taken_Count = taken.Count();
             ViewBag.title = questionnaire.title;
-            ViewBag.topic_id = questionnaire.topic_id;
+            ViewBag.topic_id = questionnaire.topic_id;  
+            Apriori ap = PopulateApriori(id);
+
+
+            ViewBag.ap = ap;
+            if(answers.Count() != 0) { 
+                ap.CalculateCNodes(0.5f);
+            }
+
+
+
 
             return View(results);
+        }
+
+
+        public Apriori PopulateApriori(int? id)
+        {
+            //Users who took this questionnaire will be used to populate transactions list
+            var taken = _db.Answers.Where(x => x.questionnaire_Id == id).Select(c => c.user_Id).Distinct().ToList();
+            
+            //This will be used to populate fieldnames
+            var questions = _db.Questions.Where(x => x.questionnaire_id == id).ToList();
+
+
+
+            List<string> fieldnames = new List<string>();
+
+            for(int i = 0; i < questions.Count(); i++)
+            {
+                fieldnames.Add("Question: " + (i + 1) + " Value: " + 1);
+                fieldnames.Add("Question: " + (i + 1) + " Value: " + 2);
+                fieldnames.Add("Question: " + (i + 1) + " Value: " + 3);
+                fieldnames.Add("Question: " + (i + 1) + " Value: " + 4);
+                fieldnames.Add("Question: " + (i + 1) + " Value: " + 5);
+            }
+
+
+            List<List<int>> Transactions = new List<List<int>>();
+            foreach (var uid in taken)
+            {
+                var answers = _db.Answers.Where(x => x.user_Id == uid && x.questionnaire_Id == id).ToList();
+                List<int> transaction = new List<int>();
+
+                for(int i = 0; i < answers.Count(); i++)
+                {
+                    var t2 = answers[i].answer;
+                    var t = (answers[i].answer - 1) + (i * 5);
+                    
+                    transaction.Add((answers[i].answer - 1) + (i*5));
+                }
+                Transactions.Add(transaction);
+            }
+
+            Apriori myApriori = new Apriori(
+                new DataFields(fieldnames.Count(), Transactions, fieldnames)
+                );
+
+            return myApriori;
         }
         public IActionResult Create(int? tID)
         {
