@@ -37,13 +37,16 @@
         Value 5 is Excellent |
     </p>
 
+
+
+
     @for (int i = 0; i < @ViewBag.ap.EachLevelOfNodes.Count; i++)
     {
         <table class="table table-bordered" align="center">
             <thead align="center">
                 <tr>
                     <th>
-                        Table @(i+1)
+                        Table @(i+1): Itemset
                     </th>
                 </tr>
             </thead>
@@ -72,7 +75,10 @@
             <thead align="center">
                 <tr>
                     <th>
-                        Rules
+                        Rule
+                    </th>
+                    <th>
+                        Confidence
                     </th>
                 </tr>
             </thead>
@@ -81,7 +87,10 @@
                 {
                     <tr>
                         <td>
-                            @rules.ToDetailedString(@ViewBag.ap.Data).Split(",")[0];
+                            @rules.ToDetailedString(@ViewBag.ap.Data).Split(" || ")[0]
+                        </td>
+                        <td>
+                            @rules.ToDetailedString(@ViewBag.ap.Data).Split(" || ")[1].Split(",")[0].Split(": ")[1]
                         </td>
                         
                     </tr>
