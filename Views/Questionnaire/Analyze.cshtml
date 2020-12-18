@@ -28,8 +28,68 @@
 
     }
 
+    <h2>Apriori Analysis: Rule Based Association</h2>
+    <p>
+        Value 1 is Poor |
+        Value 2 is Not Well |
+        Value 3 is Moderate |
+        Value 4 is Well |
+        Value 5 is Excellent |
+    </p>
 
-</body>
+    @for (int i = 0; i < @ViewBag.ap.EachLevelOfNodes.Count; i++)
+    {
+        <table class="table table-bordered" align="center">
+            <thead align="center">
+                <tr>
+                    <th>
+                        Table @(i+1)
+                    </th>
+                </tr>
+            </thead>
+            <tbody align="center">
+                @foreach (var node in @ViewBag.ap.EachLevelOfNodes[i])
+                {
+
+
+                    <tr>
+                        <td>
+                            @node.ToDetailedString(@ViewBag.ap.Data);
+                        </td>
+                    </tr>
+
+
+
+                }
+            </tbody>
+        </table>
+    }
+
+    <h2>Rules</h2>
+    @if (ViewBag.ap.Rules != null)
+    {
+        <table class="table table-bordered" align="center">
+            <thead align="center">
+                <tr>
+                    <th>
+                        Rules
+                    </th>
+                </tr>
+            </thead>
+            <tbody align="center">
+                @foreach (var rules in ViewBag.ap.Rules)
+                {
+                    <tr>
+                        <td>
+                            @rules.ToDetailedString(@ViewBag.ap.Data).Split(",")[0];
+                        </td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    </body>
 
 
 
@@ -60,9 +120,6 @@
                 var chart = new google.visualization.PieChart(document.getElementById(i));
                 chart.draw(data, options);
             }
-
-
-
         }
 </script>
 
