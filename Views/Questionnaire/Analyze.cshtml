@@ -37,9 +37,6 @@
         Value 5 is Excellent |
     </p>
 
-
-
-
     @for (int i = 0; i < @ViewBag.ap.EachLevelOfNodes.Count; i++)
     {
         <table class="table table-bordered" align="center">
@@ -53,16 +50,11 @@
             <tbody align="center">
                 @foreach (var node in @ViewBag.ap.EachLevelOfNodes[i])
                 {
-
-
                     <tr>
                         <td>
                             @node.ToDetailedString(@ViewBag.ap.Data);
                         </td>
                     </tr>
-
-
-
                 }
             </tbody>
         </table>
@@ -83,7 +75,7 @@
                 </tr>
             </thead>
             <tbody align="center">
-                @foreach (var rules in ViewBag.ap.Rules)
+                @foreach (var rules in ViewBag.Rules)
                 {
                     <tr>
                         <td>
@@ -92,13 +84,36 @@
                         <td>
                             @rules.ToDetailedString(@ViewBag.ap.Data).Split(" || ")[1].Split(",")[0].Split(": ")[1]
                         </td>
-                        
+
                     </tr>
                 }
             </tbody>
         </table>
     }
-    </body>
+
+    <form method="post">
+        <center style="display: inline-block; text-align: left;">
+
+                
+            <div class="form-group">
+                <label>Support</label>
+                <input name ="sp" class="form-control" type="number" step=".05" min="0" max="1" value="@ViewBag.sp"/>
+                <span class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label>Confidence</label>
+                <input name ="conf" class="form-control" type="number" step=".05" min="0" max="1" value="@ViewBag.cf"/>
+                <span class="text-danger"></span>
+            </div>
+
+
+
+            <button type="submit" class="btn btn-primary">Re-Analyze</button>
+        </center>
+    </form>
+</body>
 
 
 
