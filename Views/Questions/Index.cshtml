@@ -8,11 +8,16 @@
 
 @if (User.IsInRole("Admin"))
 {
+
     <div>
         <a asp-controller="Questionnaire" asp-action="EditTitle" asp-route-id="@ViewBag.questionnaire_id">Edit Title</a>
     </div>
     <div>
         <a asp-action="Create" asp-route-qid="@ViewBag.questionnaire_id">Create New Question</a>
+    </div>
+
+    <div align="center">
+        <label style="color:red; font:bold;"><u>WARNING: Editing or Creating or Deleting a question will reset users answers for that questionanaire</u></label>
     </div>
 
     <table class="table">

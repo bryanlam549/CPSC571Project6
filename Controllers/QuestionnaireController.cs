@@ -29,6 +29,23 @@ namespace CPSC571Project6.Controllers
         {
             var results = _db.Questionnaires.Where(x => x.topic_id == id).ToList();
             var topic = _db.Topics.Where(x => x.rowno == id).ToList();
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+            List<bool> completed = new List<bool>();
+            for (int i = 0; i < results.Count(); i++)
+            {
+                var answers = _db.Answers.Where(x => x.questionnaire_Id == results[i].id && x.user_Id == userId).ToList();
+                if (answers.Count() != 0)
+                {
+                    completed.Add(true);
+                }
+                else
+                {
+                    completed.Add(false);
+                }
+            }
+
+            ViewBag.completedList = completed;
             ViewBag.tID = topic.First().rowno;
             
 
