@@ -55,7 +55,6 @@ namespace CPSC571Project6.Controllers
 
 
 
-
             return View(results);
         }
 
