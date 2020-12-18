@@ -35,22 +35,37 @@ namespace CPSC571Project6.Controllers
             return View(results);
         }
 
-        public IActionResult Analyze(int? id)
+        public IActionResult Analyze(int? id, float? support, float? confidence)
         {
             var taken = _db.Answers.Where(x => x.questionnaire_Id == id).Select(c => c.user_Id).Distinct().ToList();
             var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
             var answers = _db.Answers.Where(x => x.questionnaire_Id == id).ToList();
             var results = _db.Analyze.Where(x => x.questionnaire_Id == id).ToList();
+            var sp = support;
+            var cf = confidence;
 
             ViewBag.taken_Count = taken.Count();
             ViewBag.title = questionnaire.title;
             ViewBag.topic_id = questionnaire.topic_id;  
             Apriori ap = PopulateApriori(id);
 
+            
+            if (sp == null)
+            {
+                sp = 0.5f;
+            }
 
+            if (cf == null)
+            {
+                cf = 0.5f;
+            }
+            ViewBag.sp = sp;
+            ViewBag.cf = cf;
             ViewBag.ap = ap;
+            
             if(answers.Count() != 0) { 
-                ap.CalculateCNodes(0.5f);
+                ap.CalculateCNodes((float)sp);
+                ViewBag.Rules = ap.Rules.Where(x => x.Confidence >= cf);
             }
 
 
@@ -102,6 +117,12 @@ namespace CPSC571Project6.Controllers
                 );
 
             return myApriori;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Analyze(float? sp, float? conf)
+        {
+            return RedirectToAction("Analyze", new { support = sp, confidence = conf });
         }
         public IActionResult Create(int? tID)
         {
