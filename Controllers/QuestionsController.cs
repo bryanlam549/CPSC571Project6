@@ -95,6 +95,12 @@ namespace CPSC571Project6.Controllers
             if (ModelState.IsValid)
             {
                 _db.Add(newQuestion);
+                var resetAnswers = _db.Answers.Where(x => x.questionnaire_Id == newQuestion.questionnaire_id).ToList();
+                foreach (var rm in resetAnswers)
+                {
+                    _db.Answers.Remove(rm);
+                }
+
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index", new { id = newQuestion.questionnaire_id});
 
@@ -123,6 +129,13 @@ namespace CPSC571Project6.Controllers
             {
                 var x = editQuestion.questionnaire_id;
                 _db.Update(editQuestion);
+
+                var resetAnswers = _db.Answers.Where(x => x.questionnaire_Id == editQuestion.questionnaire_id).ToList();
+                foreach (var rm in resetAnswers)
+                {
+                    _db.Answers.Remove(rm);
+                }
+
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index", new { id = editQuestion.questionnaire_id });
             }
@@ -153,8 +166,13 @@ namespace CPSC571Project6.Controllers
             var toDelete = await _db.Questions.FindAsync(id);
             _db.Questions.Remove(toDelete);
 
-            await _db.SaveChangesAsync();
+            var resetAnswers = _db.Answers.Where(x => x.questionnaire_Id == questionnaire_id).ToList();
+            foreach(var rm in resetAnswers)
+            {
+                _db.Answers.Remove(rm);
+            }
 
+            await _db.SaveChangesAsync();
             return RedirectToAction("Index", new { id = questionnaire_id });
         }
 
