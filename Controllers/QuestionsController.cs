@@ -147,7 +147,9 @@ namespace CPSC571Project6.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             var question = _db.Questions.Where(x => x.id == id).ToList().First();
+            var questionnaire = _db.Questionnaires.Where(x => x.id == question.questionnaire_id).ToList().First();
             ViewBag.questionnaire_id = question.questionnaire_id;
+            ViewBag.questionnaire_title = questionnaire.title;
             if (id == null)
             {
                 return RedirectToAction("Index", new { id = ViewBag.questionnaire_id });
