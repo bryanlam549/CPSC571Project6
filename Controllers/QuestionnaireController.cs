@@ -185,6 +185,7 @@ namespace CPSC571Project6.Controllers
             var results = _db.Questions.Where(x => x.questionnaire_id == id).ToList();
             var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
             ViewBag.questionnaire_id = questionnaire.id;
+            ViewBag.questionnaire_title = questionnaire.title;
             if (id == null)
             {
                 return RedirectToAction("Index", "Questions", new { id = ViewBag.questionnaire_id });
@@ -211,6 +212,7 @@ namespace CPSC571Project6.Controllers
         {
             var questionnaire = _db.Questionnaires.Where(x => x.id == id).ToList().First();
             ViewBag.topic_id = questionnaire.topic_id;
+            //ViewBag.topic_name = 
             if (id == null)
             {
                 return RedirectToAction("Index");
