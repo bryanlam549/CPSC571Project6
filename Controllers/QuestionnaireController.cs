@@ -46,6 +46,7 @@ namespace CPSC571Project6.Controllers
             }
 
             ViewBag.completedList = completed;
+            ViewBag.topic_name = topic.First().subject_Name;
             ViewBag.tID = topic.First().rowno;
             
 
@@ -80,9 +81,16 @@ namespace CPSC571Project6.Controllers
             ViewBag.cf = cf;
             ViewBag.ap = ap;
             
-            if(answers.Count() != 0) { 
-                ap.CalculateCNodes((float)sp);
-                ViewBag.Rules = ap.Rules.Where(x => x.Confidence >= cf);
+            if(answers.Count() != 0) {
+                try { 
+                    ap.CalculateCNodes((float)sp);
+                    ViewBag.Rules = ap.Rules.Where(x => x.Confidence >= cf);
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                
             }
 
 
