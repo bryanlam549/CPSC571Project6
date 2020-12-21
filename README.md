@@ -16,3 +16,6 @@ Download SSMS, open it up and connect using SQL Server Authentication. Type in t
   Password: Applepie1
 
 
+Website:
+  https://cpsc571website.azurewebsites.net/
+
