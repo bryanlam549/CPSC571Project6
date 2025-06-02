@@ -19,3 +19,6 @@ Download SSMS, open it up and connect using SQL Server Authentication. Type in t
 Website:
   https://cpsc571website.azurewebsites.net/
 
+
+Video Demo:
+https://www.youtube.com/watch?v=5VyWVlnOfpQ&feature=youtu.be
